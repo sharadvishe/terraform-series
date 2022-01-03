@@ -20,7 +20,7 @@ pipeline {
                     currentBuild.displayName = params.version
                 }
                 
-                sh '/usr/local/bin/aws s3 sync s3://terraform-examples-series/kafka kafka'
+
                 dir('./kafka/'){
                     sh "terraform init && terraform plan -input=false -out tfplan -var CLUSTER_SIZE=${cluster_size} -var CLUSTER_NAME=${cluster_name} -var AWS_ACCESS_KEY=${AWS_ACCESS_KEY} -var AWS_SECRET_KEY=${AWS_SECRET_KEY}  --var-file=environments/${params.environment}/variable.tfvars"
                     sh 'terraform show -no-color tfplan > tfplan.txt'
