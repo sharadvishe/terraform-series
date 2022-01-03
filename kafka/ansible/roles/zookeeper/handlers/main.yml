@@ -1,0 +1,4 @@
+---
+- name: zoo_service_status report
+  include: service.yml stage='after start/stop action'
+

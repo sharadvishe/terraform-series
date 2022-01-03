@@ -1,0 +1,27 @@
+---
+- name: Check if java is installed
+  command: java -version
+  register: java_result
+  ignore_errors: True
+  tags: ['start', 'stop', 'install', 'uninstall', 'info']
+
+- debug:
+    msg: "Failed - Java is not installed"
+  when: java_result is failed
+  tags: ['start', 'stop', 'install', 'uninstall', 'info']
+
+- name: Install JDK 1.8
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - java-1.8.0-openjdk
+    - java-1.8.0-openjdk-devel
+  when: java_result is failed
+  tags: install
+
+- debug:
+    msg: "Success - Java is installed"
+  when:  java_result is success
+  tags: ['start', 'stop', 'install', 'uninstall', 'info']

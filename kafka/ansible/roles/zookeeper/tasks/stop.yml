@@ -1,0 +1,18 @@
+
+- name: Check if zookeeper service is running
+  shell: ps aux | grep zookeeper | grep -v grep
+  ignore_errors: yes
+  register: zoo_service_status
+
+- name: Zookeeper sevice (running or stopped) report
+  debug:
+    msg: "Zookeeper server is {% if zoo_service_status.rc != 0 %}not {% endif %}running"
+
+- name: Zookeeper stop {{ ZOOKEEPER_HOME }}/bin"
+  become: yes
+  become_user: "{{ ZOOKEEPER_USER }}"
+  remote_user: "{{ ZOOKEEPER_USER }}"
+  shell: "{{ ZOOKEEPER_STOP_COMMAND }}"
+  args:
+    chdir: "{{ ZOOKEEPER_HOME }}/bin"
+  when: zoo_service_status.rc == 0

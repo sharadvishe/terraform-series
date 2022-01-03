@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local 
+#  become: true
+
+  vars:
+    servers: "{{ lookup('file', '/tmp/servers.txt').splitlines() }}"
+  roles:
+    - java
+    - zookeeper
+    - kafka
+
