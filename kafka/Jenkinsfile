@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    environment {
+        TF_IN_AUTOMATION      = '1'
+        PATH = "/usr/local/bin:$PATH"
+    }
+
+    stages {
+        stage('Plan') {
+            steps {
+                script {
+                    currentBuild.displayName = params.version
+                }
+                
+                sh '/usr/local/bin/aws s3 sync s3://terraform-examples-series/kafka kafka'
+                dir('./kafka/'){
+                    sh "terraform init && terraform plan -input=false -out tfplan -var CLUSTER_SIZE=${cluster_size} -var CLUSTER_NAME=${cluster_name} -var AWS_ACCESS_KEY=${AWS_ACCESS_KEY} -var AWS_SECRET_KEY=${AWS_SECRET_KEY}  --var-file=environments/${params.environment}/variable.tfvars"
+                    sh 'terraform show -no-color tfplan > tfplan.txt'
+                }
+            }
+        }
+
+        stage('Approval') {
+            when {
+                not {
+                    equals expected: true, actual: params.autoApprove
+                }
+            }
+
+            steps {
+                script {
+                    def plan = readFile './kafka/tfplan.txt'
+                    input message: "Do you want to apply the plan?",
+                        parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
+                }
+            }
+        }
+
+        stage('Apply') {
+            steps {
+                dir('./kafka/'){
+                    sh "terraform apply -input=false tfplan"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'kafka/tfplan.txt'
+        }
+    }
+}
