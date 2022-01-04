@@ -9,7 +9,7 @@ KAFKA_LOG_DIR: /var/log/kafka
 
 # Kafka service commands
 KAFKA_STOP_COMMAND: "./kafka-server-stop.sh; sleep 20"
-KAFKA_START_COMMAND: "nohup ./kafka-server-start.sh -daemon ../config/server.properties &"
+KAFKA_START_COMMAND: "nohup ./kafka-server-start.sh ../config/server.properties &"
 KAFKA_USER: "centos"
 # Unix user and group
 UNIX_KAFKA_USER: centos
