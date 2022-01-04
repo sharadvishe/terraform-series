@@ -17,7 +17,7 @@ pipeline {
                 
 
                 dir('./kafka/'){
-                    sh '/usr/local/bin/aws s3 cp s3://terraform-examples-series/kafka/mykey.pub . && /usr/local/bin/aws s3 cp s3://terraform-examples-series/kafka/mykey . && chmod 400 mykey'
+                    sh '/usr/local/bin/aws s3 cp s3://terraform-examples-series/kafka/terraform.pem && chmod 400 terraform.pem'
                     sh "terraform init && terraform plan -input=false -out tfplan -var CLUSTER_SIZE=${cluster_size} -var CLUSTER_NAME=${cluster_name} -var AWS_ACCESS_KEY=${AWS_ACCESS_KEY} -var AWS_SECRET_KEY=${AWS_SECRET_KEY}  --var-file=environments/${params.environment}/variable.tfvars"
                     sh 'terraform show -no-color tfplan > tfplan.txt'
                 }

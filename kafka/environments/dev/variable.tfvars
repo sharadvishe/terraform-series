@@ -8,7 +8,8 @@ AMIS = {
 
 INSTANCE_TYPE = "t2.micro"
 CLUSTER_SIZE = 3
-PATH_TO_PRIVATE_KEY = "mykey"
+KEY_NAME = "terraform"
+PATH_TO_PRIVATE_KEY = "terraform.pem"
 PATH_TO_PUBLIC_KEY = "mykey.pub"
 INSTANCE_USERNAME = "centos"
 
