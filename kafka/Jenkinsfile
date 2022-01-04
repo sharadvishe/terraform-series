@@ -4,8 +4,8 @@ pipeline {
     environment {
         TF_IN_AUTOMATION      = '1'
         PATH = "/usr/local/bin:$PATH"
-        TF_VAR_AWS_ACCESSS_KEY = env.AWS_ACCESSS_KEY
-        TF_VAR_AWS_SECRET_KEY = env.AWS_SECRET_KEY
+#        TF_VAR_AWS_ACCESSS_KEY = env.AWS_ACCESSS_KEY
+#        TF_VAR_AWS_SECRET_KEY = env.AWS_SECRET_KEY
     }
 
     stages {
