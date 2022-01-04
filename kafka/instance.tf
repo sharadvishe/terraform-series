@@ -36,9 +36,6 @@ resource "aws_instance" "example" {
   }
 }
 
-output "cluster_ip" {
-    value = "${join(",", aws_instance.example.*.private_ip)}"
-}
 
 
 resource "null_resource" "provision_kafka_cluster" {
