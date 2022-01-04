@@ -20,4 +20,6 @@ variable "PATH_TO_PRIVATE_KEY" {}
 
 variable "PATH_TO_PUBLIC_KEY" {}
 
+variable "KEY_NAME" {}
+
 variable "INSTANCE_USERNAME" {}
