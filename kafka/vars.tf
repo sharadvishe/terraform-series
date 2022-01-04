@@ -14,7 +14,7 @@ variable "CLUSTER_SIZE"{}
 
 variable "CLUSTER_NAME"{}
 
-variable TAGS {}
+variable "TAGS" {}
 
 variable "PATH_TO_PRIVATE_KEY" {}
 
