@@ -3,9 +3,10 @@ resource "aws_instance" "broker" {
   ami           = var.AMIS[var.AWS_REGION]
   instance_type = var.INSTANCE_TYPE
   key_name = var.KEY_NAME
-
+  vpc_security_group_ids = var.vpc_security_group_ids
+  subnet_id = var.subnet_id
   count = var.CLUSTER_SIZE
-  tags = var.TAGS
+  tags = merge(var.TAGS, { cluster_name = var.CLUSTER_NAME,  Name = "broker-${count.index + 1}" })
   provisioner "file" {
     source      = "./ansible"
     destination = "/tmp/ansible"
